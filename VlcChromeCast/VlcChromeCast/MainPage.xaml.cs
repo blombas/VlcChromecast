@@ -17,5 +17,11 @@ namespace VlcChromeCast
 		{
 			InitializeComponent();
 		}
+
+		void OnAppearing(object sender, System.EventArgs e)
+		{
+			base.OnAppearing();
+			((MainPageViewModel)BindingContext).OnAppearing();
+		}
 	}
 }

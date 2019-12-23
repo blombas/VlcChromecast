@@ -4,13 +4,17 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:d="http://xamarin.com/schemas/2014/forms/design"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d"
+    xmlns:vlc="clr-namespace:LibVLCSharp.Forms.Shared;assembly=LibVLCSharp.Forms"
+    xmlns:local="clr-namespace:VlcChromeCast"
+    mc:Ignorable="d" Appearing="OnAppearing"
     x:Class="VlcChromeCast.MainPage">
-    <StackLayout>
-        <!-- Place new controls here -->
-        <Label
-            Text="Welcome to Xamarin.Forms!"
-            HorizontalOptions="Center"
-            VerticalOptions="CenterAndExpand" />
-    </StackLayout>
+
+    <ContentPage.BindingContext>
+        <local:MainPageViewModel />
+    </ContentPage.BindingContext>
+
+    <vlc:MediaPlayerElement
+        MediaPlayer="{Binding MediaPlayer}"
+        LibVLC="{Binding LibVLC}"
+        EnableRendererDiscovery="True" />
 </ContentPage>
