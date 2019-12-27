@@ -12,7 +12,7 @@ namespace VlcChromeCast
 		public event PropertyChangedEventHandler PropertyChanged;
 
 		/// <summary>
-		/// Initializes a new instance of <see cref="MainViewModel"/> class.
+		/// Initializes a new instance of <see cref="MainPageViewModel"/> class.
 		/// </summary>
 		public MainPageViewModel()
 		{
@@ -48,7 +48,7 @@ namespace VlcChromeCast
 			LibVLC = new LibVLC();
 
 			var media = new Media(LibVLC,
-				"http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
+				"http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4",
 				FromType.FromLocation);
 
 			MediaPlayer = new MediaPlayer(media) { EnableHardwareDecoding = true };
