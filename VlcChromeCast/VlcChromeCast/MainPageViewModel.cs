@@ -48,7 +48,7 @@ namespace VlcChromeCast
 			LibVLC = new LibVLC();
 
 			var media = new Media(LibVLC,
-				"http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4",
+				"https://player.vimeo.com/external/381866012.hd.mp4?s=ade26e2856bcd5f50d09acd9cd2449e57467514b&profile_id=174",
 				FromType.FromLocation);
 
 			MediaPlayer = new MediaPlayer(media) { EnableHardwareDecoding = true };
