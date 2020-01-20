@@ -23,5 +23,15 @@ namespace VlcChromeCast
 			base.OnAppearing();
 			((MainPageViewModel)BindingContext).OnAppearing();
 		}
+
+		void ButtonStart_Clicked(System.Object sender, System.EventArgs e)
+		{
+			DependencyService.Get<IForegroundService>().StartForegroundService();
+		}
+
+		void ButtonStop_Clicked(System.Object sender, System.EventArgs e)
+		{
+			DependencyService.Get<IForegroundService>().StopForegroundService();
+		}
 	}
 }

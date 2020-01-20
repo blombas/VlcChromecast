@@ -45,11 +45,17 @@ namespace VlcChromeCast
 		{
 			Core.Initialize();
 
-			LibVLC = new LibVLC();
-
+			LibVLC = new LibVLC(new string[] { "--sout-keep" });
+			
+			
 			var media = new Media(LibVLC,
 				"https://player.vimeo.com/external/381866012.hd.mp4?s=ade26e2856bcd5f50d09acd9cd2449e57467514b&profile_id=174",
 				FromType.FromLocation);
+
+			//media.AddOption("casting_passthrough");
+			//media.AddOption("--sout-chromecast-audio-passthrough");
+			//media.AddOption("--sout-keep");
+
 
 			MediaPlayer = new MediaPlayer(media) { EnableHardwareDecoding = true };
 			MediaPlayer.Play();

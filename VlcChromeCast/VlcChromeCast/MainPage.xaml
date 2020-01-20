@@ -6,15 +6,32 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:vlc="clr-namespace:LibVLCSharp.Forms.Shared;assembly=LibVLCSharp.Forms"
     xmlns:local="clr-namespace:VlcChromeCast"
-    mc:Ignorable="d" Appearing="OnAppearing"
+    mc:Ignorable="d"
+    Appearing="OnAppearing"
     x:Class="VlcChromeCast.MainPage">
 
     <ContentPage.BindingContext>
         <local:MainPageViewModel />
     </ContentPage.BindingContext>
-
-    <vlc:MediaPlayerElement
-        MediaPlayer="{Binding MediaPlayer}"
-        LibVLC="{Binding LibVLC}"
-        EnableRendererDiscovery="True" />
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="8*"/>
+            <RowDefinition Height="2*"/>
+        </Grid.RowDefinitions>
+        <vlc:MediaPlayerElement Grid.Row="0"
+            MediaPlayer="{Binding MediaPlayer}"
+            LibVLC="{Binding LibVLC}"
+            EnableRendererDiscovery="True" />
+        <StackLayout Grid.Row="1" HorizontalOptions="Center" Margin="10"
+            Orientation="Horizontal" VerticalOptions="End">
+            <Button
+                BackgroundColor="DeepSkyBlue"
+                Text="Start&#x0a;Foreground Service"
+                TextColor="White" Clicked="ButtonStart_Clicked"></Button>
+                        <Button
+                BackgroundColor="DeepSkyBlue"
+                Text="Stop&#x0a;Foreground Service"
+                TextColor="White" Clicked="ButtonStop_Clicked"></Button>
+        </StackLayout>
+    </Grid>
 </ContentPage>
