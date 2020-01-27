@@ -1,73 +1,74 @@
-﻿using System;
+﻿using LibVLCSharp.Shared;
+using System;
+using System.Collections.Generic;
 using System.ComponentModel;
-using LibVLCSharp.Shared;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace VlcChromeCast
 {
-	public class MainPageViewModel : INotifyPropertyChanged
-	{
-		/// <summary>
-		/// Property changed event
-		/// </summary>
-		public event PropertyChangedEventHandler PropertyChanged;
+    public class MainPageViewModel: INotifyPropertyChanged
+    {
+        public event PropertyChangedEventHandler PropertyChanged;
 
-		/// <summary>
-		/// Initializes a new instance of <see cref="MainPageViewModel"/> class.
-		/// </summary>
-		public MainPageViewModel()
-		{
-		}
+        public MainPageViewModel()
+        {
+            Task.Run((Action)Initialize);
+        }
 
-		private LibVLC _libVLC;
-		/// <summary>
-		/// Gets the <see cref="LibVLCSharp.Shared.LibVLC"/> instance.
-		/// </summary>
-		public LibVLC LibVLC
-		{
-			get => _libVLC;
-			private set => Set(nameof(LibVLC), ref _libVLC, value);
-		}
+        private LibVLC _libVLC;
+        /// <summary>
+        /// Gets the <see cref="LibVLCSharp.Shared.LibVLC"/> instance.
+        /// </summary>
+        public LibVLC LibVLC
+        {
+            get => _libVLC;
+            set => Set(nameof(LibVLC), ref _libVLC, value);
+        }
 
-		private MediaPlayer _mediaPlayer;
-		/// <summary>
-		/// Gets the <see cref="LibVLCSharp.Shared.MediaPlayer"/> instance.
-		/// </summary>
-		public MediaPlayer MediaPlayer
-		{
-			get => _mediaPlayer;
-			private set => Set(nameof(MediaPlayer), ref _mediaPlayer, value);
-		}
+        private MediaPlayer _mediaPlayer;
+        public MediaPlayer MediaPlayer
+        {
+            get => _mediaPlayer;
+            private set => Set(nameof(MediaPlayer), ref _mediaPlayer, value);
+        }
 
-		/// <summary>
-		/// Initialize LibVLC and playback when page appears
-		/// </summary>
-		public void OnAppearing()
-		{
-			Core.Initialize();
+        private bool IsLoaded { get; set; }
 
-			LibVLC = new LibVLC(new string[] { "--sout-keep" });
-			
-			
-			var media = new Media(LibVLC,
-				"https://player.vimeo.com/external/381866012.hd.mp4?s=ade26e2856bcd5f50d09acd9cd2449e57467514b&profile_id=174",
-				FromType.FromLocation);
+        private void Set<T>(string propertyName, ref T field, T value)
+        {
+            if (field == null && value != null || field != null && !field.Equals(value))
+            {
+                field = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            }
+        }
 
-			//media.AddOption("casting_passthrough");
-			//media.AddOption("--sout-chromecast-audio-passthrough");
-			//media.AddOption("--sout-keep");
+        public void Initialize()
+        {
+            Core.Initialize();
 
+            LibVLC = new LibVLC();
+            MediaPlayer = new MediaPlayer(LibVLC)
+            {
+                Media = new Media(LibVLC,
+                    "https://player.vimeo.com/external/381866012.hd.mp4?s=ade26e2856bcd5f50d09acd9cd2449e57467514b&profile_id=174",
+                    FromType.FromLocation)
+            };
+        }
 
-			MediaPlayer = new MediaPlayer(media) { EnableHardwareDecoding = true };
-			MediaPlayer.Play();
-		}
+        public void OnAppearing()
+        {
+            IsLoaded = true;
+            Play();
+        }
 
-		private void Set<T>(string propertyName, ref T field, T value)
-		{
-			if (field == null && value != null || field != null && !field.Equals(value))
-			{
-				field = value;
-				PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-			}
-		}
-	}
+        private void Play()
+        {
+            if (IsLoaded)
+            {
+                MediaPlayer.Play();
+            }
+        }
+    }
 }
